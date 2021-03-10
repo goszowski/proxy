@@ -27,11 +27,12 @@ class ProxyController extends Controller
 
         $response = Curl::to(config('proxy.url') . $request->path() . ($query ? '?'.$query : null))
             ->withData($request->getContent())
+            ->withResponseHeaders()
             ->withHeaders($headers)
             // ->allowRedirect()
             ->returnResponseObject()
             ->{$request->method()}();
 
-        return response($response->content, $response->status)->header('Content-Type', $response->contentType);
+        return response($response->content, $response->status, $response->headers);
     }
 }
