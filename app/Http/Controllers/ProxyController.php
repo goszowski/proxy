@@ -22,10 +22,13 @@ class ProxyController extends Controller
             }
         }
 
+        if(isset($headers['host']))
+            unset($headers['host']);
+
         $response = Curl::to(config('proxy.url') . $request->path() . ($query ? '?'.$query : null))
             ->withData($request->getContent())
             ->withHeaders($headers)
-            ->allowRedirect()
+            // ->allowRedirect()
             ->returnResponseObject()
             ->{$request->method()}();
 
