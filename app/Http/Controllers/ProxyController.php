@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Ixudra\Curl\Facades\Curl;
 use Illuminate\Support\Arr;
+use Log;
 
 class ProxyController extends Controller
 {
@@ -17,6 +18,8 @@ class ProxyController extends Controller
             ->withResponseHeaders()
             ->returnResponseObject()
             ->{$request->method()}();
+        
+        Log::info(json_encode($response));
 
         return response($response->content, $response->status, $response->headers);
     }
